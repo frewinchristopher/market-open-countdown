@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Vollkorn+SC');
+
+body {
+  background: #222;
+}
+
+.flexContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh; /* controls how high text is */
+}
+
+.container {
+  width: 7rem; /* will force fance newline*/
+  height: 7rem;
+  max-width: 50%;
+}
+
+.marketOpen, .react-count-down {
+  color: #7ac800;
+  font-size: 4vw;
+  font-family: 'Vollkorn SC', serif;
+  line-height: .8em;
+}
+
+.hr {
+  border-color: #7ac800;
+  width:"40%"
+}
+
+/* for phones, a bit bigger font */
+@media (pointer:coarse) {
+  .marketOpen, .react-count-down {
+    font-size: 12vw;
+  }
+}
