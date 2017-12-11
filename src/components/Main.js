@@ -3,8 +3,9 @@ require('styles/App.css');
 
 // imports
 import React from 'react';
-import Countdown from 'react-count-down'
-import ConfettiDimensioned from './ConfettiWrapper.js'
+import Countdown from 'react-count-down';
+import moment from 'moment-timezone';
+import ConfettiDimensioned from './ConfettiWrapper.js';
 
 class AppComponent extends React.Component {
   constructor() {
@@ -13,23 +14,26 @@ class AppComponent extends React.Component {
       bShowConfetti: false
     };
     this.showConfetti = this.showConfetti.bind(this);
-  }
-  secondsUntilMarketOpen() {
-      var marketOpen = new Date();
-      marketOpen.setHours( 9 );
-      marketOpen.setMinutes( 0 );
-      marketOpen.setSeconds( 0 );
-      marketOpen.setMilliseconds( 0 );
-      return ( marketOpen.getTime() - new Date().getTime() ) / 1000;
+    this.toTimeZone = this.toTimeZone.bind(this);
   }
   showConfetti() {
     this.setState({bShowConfetti: true});
   }
+  toTimeZone(time, tz) {
+    var format = 'YYYY.MM.DD HH:mm:ss';
+    return moment(time, format).tz(tz).format(format);
+  }
   render() {
+    var oWallStreetTime = moment().tz("EST");
+    oWallStreetTime = oWallStreetTime.hour(9);
+    oWallStreetTime = oWallStreetTime.minute(30);
+    oWallStreetTime = oWallStreetTime.second(0);
+    var tz = moment.tz.guess(); // user's time zone
+    var oLocalTime = this.toTimeZone(oWallStreetTime, tz); // convert the 9:30:00 local time EST to the user's timezone
     const cb = () => {
       this.showConfetti();
     }
-    const OPTIONS = { className: 'react-count-down', endDate: '11.30.2017 16:20:00', prefix: 'until the market opens!', cb }
+    const OPTIONS = { className: 'react-count-down', endDate: oLocalTime, prefix: 'until the u.s. markets open!', cb }
     return (
         <div>
           <div className="flexContainer">
